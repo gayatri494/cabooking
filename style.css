@@ -1,0 +1,128 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f0f4f8;
+  color: #172338;
+}
+
+header {
+  background: #ffffff;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  box-shadow: 0 2px 8px #ccc;
+}
+
+header h2 {
+  color: #2878e5;
+}
+
+main {
+  width: 90%;
+  max-width: 900px;
+  margin: 25px auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 22px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px #ddd;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+}
+
+button {
+  background: #2878e5;
+  color: white;
+  border: none;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#fare {
+  color: #16804a;
+}
+
+#cancel {
+  background: #d94b4b;
+}
+
+a {
+  color: #2878e5;
+}
+
+dialog {
+  border: none;
+  border-radius: 12px;
+  padding: 25px;
+  max-width: 90%;
+}
+
+dialog input {
+  display: block;
+}
+
+body.dark {
+  background: #101827;
+  color: white;
+}
+
+body.dark header,
+body.dark .card,
+body.dark dialog {
+  background: #1d293b;
+  color: white;
+}
+
+body.dark input,
+body.dark select {
+  background: #26354a;
+  color: white;
+  border-color: #536176;
+}
+
+@media (max-width: 650px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
+.notification {
+  background: #dff5e5;
+  color: #176b35;
+  padding: 12px;
+  margin: 15px auto;
+  width: 90%;
+  max-width: 900px;
+  border-radius: 8px;
+  text-align: center;
+}

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CabGo - Cab Booking</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h2>🚕 CabGo</h2>
+  <button id="themeToggle">🌙 Dark Mode</button>
+  <button id="loginOpen">Login / Sign Up</button>
+  <button type="button" onclick="changeLanguage()">
+  🌐 मराठी / English
+</button>
+</header>
+<div id="notification" class="notification">
+  Welcome to CabGo! 🚕
+</div>
+
+<main>
+  <section class="card">
+    <h1 id="mainHeading">Cab Booking Chatbot</h1>
+    <p>Your ride, your choice!</p>
+
+    <label>Select Cab</label>
+    <select id="cab">
+      <option value="12">Auto - ₹12/km</option>
+      <option value="18">Sedan - ₹18/km</option>
+      <option value="25">SUV - ₹25/km</option>
+    </select>
+
+    <label>Select Route</label>
+    <select id="route">
+      <option value="5">Pune Station → Shivajinagar (5 km)</option>
+      <option value="8">Swargate → Kothrud (8 km)</option>
+      <option value="10">Hinjawadi → Wakad (10 km)</option>
+    </select>
+    <button type="button" onclick="saveFavoriteRoute()">
+  ❤️ Save Favorite Route
+</button>
+
+<button type="button" onclick="useFavoriteRoute()">
+  ⭐ Use Favorite Route
+</button>
+
+<p id="favoriteMessage"></p>
+
+    <label>Pickup Location</label>
+    <input id="pickup" placeholder="Enter pickup landmark">
+    <button type="button" onclick="getLocation()">
+  📍 Use My Current Location
+</button>
+
+<p id="locationMessage">Your location will appear here.</p>
+
+<a id="mapLink"
+   href="https://www.openstreetmap.org/"
+   target="_blank"
+   rel="noopener">
+  🗺️ Open Map
+</a>
+
+    <label>🎟️ Promo Code</label>
+<input id="promo" placeholder="Enter CAB10 or CAB20">
+
+<p id="promoMessage"></p>
+<button type="button" onclick="applyPromo()">Apply Coupon</button>
+<h3>🎁 Refer a Friend</h3>
+
+<p>Your Referral Code: <strong>CABFRIEND</strong></p>
+
+<button type="button" onclick="copyReferral()">
+  📋 Copy Referral Code
+</button>
+
+<p id="referralMessage"></p>
+
+    <label>Payment Method</label>
+<select id="payment" onchange="showPaymentInfo()">
+  <option value="Cash">Cash</option>
+  <option value="UPI">UPI</option>
+  <option value="Card">Credit / Debit Card</option>
+</select>
+
+<p id="paymentInfo">Pay cash to the driver after the ride.</p>
+
+    <button onclick="calculateFare()">Calculate Fare</button>
+
+    <h2 id="fare">Total Fare: ₹0</h2>
+    <p id="discount"></p>
+
+    <button id="confirm" onclick="confirmRide()" disabled>
+      Confirm Booking
+    </button>
+
+    <button id="cancel" onclick="cancelRide()" disabled>
+      Cancel Ride
+    </button>
+    <button type="button" onclick="downloadReceipt()">
+  🧾 Download Booking Receipt
+</button>
+
+    <p id="message">Choose your cab and route.</p>
+    <p id="otp"></p>
+  </section>
+
+  <section class="card">
+    <h2>🧑‍✈️ Driver Details</h2>
+<p>Driver: Rahul Patil (Demo)</p>
+<p>Rating: ⭐ 4.8/5 (Sample)</p>
+<h3>⭐ Rate Your Driver</h3>
+
+<label>Give Rating</label>
+<select id="driverRating">
+  <option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
+  <option value="4">⭐⭐⭐⭐ - Very Good</option>
+  <option value="3">⭐⭐⭐ - Good</option>
+  <option value="2">⭐⭐ - Average</option>
+  <option value="1">⭐ - Poor</option>
+</select>
+
+<label>Your Feedback</label>
+<textarea id="driverFeedback"
+  placeholder="Write your feedback here..."
+  rows="3"></textarea>
+
+<button type="button" onclick="submitFeedback()">
+  Submit Feedback
+</button>
+
+<p id="feedbackMessage"></p>
+<div id="feedbackHistory"></div>
+
+<h3>📍 Pickup Map</h3>
+<a href="https://www.openstreetmap.org/"
+   target="_blank" rel="noopener">
+  Open Map
+</a>
+
+<h3>🚕 Live Driver Tracking</h3>
+
+<p id="driverStatus">Driver not assigned yet.</p>
+
+<p id="driverETA">Estimated arrival: -- minutes</p>
+
+<button type="button" onclick="trackDriver()">
+  Track Driver
+</button>
+
+<a id="driverMap"
+   href="https://www.openstreetmap.org/"
+   target="_blank" rel="noopener">
+  Open Driver Map
+</a>
+
+    <h2>🧾 My Rides</h2>
+    <div id="history">No rides yet.</div>
+  </section>
+  <button type="button" onclick="clearHistory()">
+  🗑️ Clear Booking History
+</button>
+
+  <section class="card">
+    <h2>💬 Customer Support Chatbot</h2>
+    <input id="question" placeholder="Ask about fare, OTP or routes">
+    <button onclick="chat()">Ask</button>
+    <p id="answer"></p>
+  </section>
+</main>
+
+<dialog id="loginDialog">
+  <h2>Login / Sign Up</h2>
+  <input id="username" placeholder="Enter your name">
+  <input id="email" type="email" placeholder="Enter email">
+  <button onclick="login()">Continue (Demo)</button>
+  <button onclick="loginDialog.close()">Close</button>
+  <p id="loginMessage"></p>
+</dialog>
+
+<script src="script.js"></script>
+</body>
+</html>
