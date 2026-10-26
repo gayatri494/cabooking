@@ -157,24 +157,114 @@ function login() {
 }
 
 function chat() {
-  const question =
-    document.getElementById("question").value.toLowerCase();
+  const input = document.getElementById("question");
+  const answer = document.getElementById("answer");
+  const question = input.value.trim().toLowerCase();
 
-  let answer = "Please ask about fare, route, payment, OTP or cancellation.";
-
-  if (question.includes("fare") || question.includes("price")) {
-    answer = "Fare = distance × rate. Auto ₹12/km, Sedan ₹18/km, SUV ₹25/km.";
-  } else if (question.includes("route") || question.includes("distance")) {
-    answer = "Pune Station-Shivajinagar 5 km; Swargate-Kothrud 8 km; Hinjawadi-Wakad 10 km.";
-  } else if (question.includes("otp")) {
-    answer = "OTP appears after booking confirmation. Sharing OTP locks cancellation.";
-  } else if (question.includes("cancel")) {
-    answer = "You can cancel before sharing OTP. After sharing OTP, cancellation is locked.";
-  } else if (question.includes("payment") || question.includes("upi")) {
-    answer = "Cash, UPI Demo and Card Demo are available. No real payment is processed.";
+  if (question === "") {
+    answer.textContent = "Please type your question!";
+    return;
   }
 
-  document.getElementById("answer").textContent = answer;
+  if (
+    question.includes("hello") ||
+    question.includes("hi") ||
+    question.includes("नमस्कार")
+  ) {
+    answer.textContent =
+      "👋 Hello! Welcome to CabGo. How can I help you?";
+  }
+
+  else if (
+    question.includes("fare") ||
+    question.includes("price") ||
+    question.includes("भाडे")
+  ) {
+    answer.textContent =
+      "🚕 Auto ₹12/km, Sedan ₹18/km, SUV ₹25/km. Select cab and route to calculate fare.";
+  }
+
+  else if (
+    question.includes("cheapest") ||
+    question.includes("cheap") ||
+    question.includes("स्वस्त")
+  ) {
+    answer.textContent =
+      "💰 Auto is the cheapest cab at ₹12/km.";
+  }
+
+  else if (
+    question.includes("book") ||
+    question.includes("booking") ||
+    question.includes("बुक")
+  ) {
+    answer.textContent =
+      "📍 Select cab and route, enter pickup, calculate fare, then click Confirm Booking.";
+  }
+
+  else if (
+    question.includes("cancel") ||
+    question.includes("रद्द")
+  ) {
+    answer.textContent =
+      "❌ You can cancel before sharing OTP. After sharing OTP, cancellation is locked.";
+  }
+
+  else if (question.includes("otp")) {
+    answer.textContent =
+      "🔐 Your demo OTP appears after confirming your booking. It is not sent by SMS.";
+  }
+
+  else if (
+    question.includes("promo") ||
+    question.includes("coupon") ||
+    question.includes("discount")
+  ) {
+    answer.textContent =
+      "🎟️ Try CAB10 for 10% off or CAB20 for 20% off.";
+  }
+
+  else if (
+    question.includes("payment") ||
+    question.includes("upi") ||
+    question.includes("पैसे")
+  ) {
+    answer.textContent =
+      "💳 Cash, UPI and Card options are available in demo mode. No real payment is processed.";
+  }
+
+  else if (
+    question.includes("location") ||
+    question.includes("pickup") ||
+    question.includes("लोकेशन")
+  ) {
+    answer.textContent =
+      "📍 Enter your pickup location or click Use My Current Location and allow permission.";
+  }
+
+  else if (
+    question.includes("route") ||
+    question.includes("distance") ||
+    question.includes("मार्ग")
+  ) {
+    answer.textContent =
+      "🗺️ Available routes: Pune Station–Shivajinagar (5 km), Swargate–Kothrud (8 km), Hinjawadi–Wakad (10 km).";
+  }
+
+  else if (
+    question.includes("driver") ||
+    question.includes("track")
+  ) {
+    answer.textContent =
+      "🚕 Confirm your booking, then click Track Driver. Tracking is a demo, not real-time.";
+  }
+
+  else {
+    answer.textContent =
+      "🤖 Sorry, I don't know that yet. Ask me about fare, booking, OTP, payment, promo codes or routes.";
+  }
+
+  input.value = "";
 }
 
 showHistory();
@@ -378,3 +468,273 @@ function useFavoriteRoute() {
   document.getElementById("favoriteMessage").textContent =
     "⭐ Favorite route selected!";
 }
+document.addEventListener("DOMContentLoaded", function () {
+  const button = document.getElementById("loginOpen");
+  const dialog = document.getElementById("loginDialog");
+
+  if (button && dialog) {
+    button.addEventListener("click", function () {
+      dialog.showModal();
+    });
+  }
+});
+// CabGo Dark Mode
+document.addEventListener("DOMContentLoaded", function () {
+  const themeButton = document.getElementById("themeToggle");
+
+  if (!themeButton) {
+    console.log("Dark Mode button not found in HTML.");
+    return;
+  }
+
+  themeButton.addEventListener("click", function () {
+    document.body.classList.toggle("dark-mode");
+
+    const darkModeOn = document.body.classList.contains("dark-mode");
+
+    themeButton.textContent = darkModeOn
+      ? "☀️ Light Mode"
+      : "🌙 Dark Mode";
+  });
+});
+/* Smart Ride Buddy */
+(function () {
+  const contactName = document.getElementById("trustedContact");
+  const contactPhone = document.getElementById("trustedPhone");
+  const saveBtn = document.getElementById("saveContactBtn");
+  const timerText = document.getElementById("safetyTimer");
+  const startBtn = document.getElementById("startSafetyBtn");
+  const stopBtn = document.getElementById("stopSafetyBtn");
+  const shareBtn = document.getElementById("shareTripBtn");
+  const message = document.getElementById("buddyMessage");
+
+  if (
+    !contactName || !contactPhone || !saveBtn ||
+    !timerText || !startBtn || !stopBtn ||
+    !shareBtn || !message
+  ) return;
+
+  let timerInterval = null;
+  let elapsedSeconds = 0;
+
+  // Load saved contact from this browser
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem("cabGoTrustedContact") || "{}"
+    );
+    contactName.value = saved.name || "";
+    contactPhone.value = saved.phone || "";
+  } catch (error) {
+    console.log("Could not load saved contact.");
+  }
+
+  saveBtn.addEventListener("click", function () {
+    const name = contactName.value.trim();
+    const phone = contactPhone.value.trim();
+
+    if (!name || !/^[0-9+\-\s()]{7,18}$/.test(phone)) {
+      message.textContent = "Please enter a name and valid phone number.";
+      return;
+    }
+
+    localStorage.setItem("cabGoTrustedContact", JSON.stringify({
+      name: name,
+      phone: phone
+    }));
+
+    message.textContent = "Trusted contact saved on this device.";
+  });
+
+  function displayTime() {
+    const minutes = Math.floor(elapsedSeconds / 60);
+    const seconds = elapsedSeconds % 60;
+    timerText.textContent =
+      "Ride timer: " + minutes + " min " +
+      String(seconds).padStart(2, "0") + " sec";
+  }
+
+  startBtn.addEventListener("click", function () {
+  if (timerInterval !== null) return;
+
+  elapsedSeconds = 0;
+  displayTime();
+  message.textContent = "Safety timer started!";
+
+  timerInterval = setInterval(function () {
+    elapsedSeconds++;
+    displayTime();
+  }, 1000);
+});
+
+  stopBtn.addEventListener("click", function () {
+    if (timerInterval !== null) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+
+    message.textContent = "Safety timer stopped.";
+  });
+
+  shareBtn.addEventListener("click", async function () {
+    const name = contactName.value.trim();
+    const phone = contactPhone.value.trim();
+
+    const tripDetails =
+      "CabGo Trip Details\n" +
+      "Trusted Contact: " + (name || "Not entered") + "\n" +
+      "Contact Number: " + (phone || "Not entered") + "\n" +
+      "Please check on me during my ride.";
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "CabGo Trip Details",
+          text: tripDetails
+        });
+        message.textContent = "Share menu opened.";
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          message.textContent = "Sharing failed. Please try again.";
+        }
+      }
+    } else if (navigator.clipboard) {
+      try {
+        await navigator.clipboard.writeText(tripDetails);
+        message.textContent = "Trip details copied. You can paste and send them.";
+      } catch (error) {
+        message.textContent = "Sharing is not supported in this browser.";
+      }
+    } else {
+      message.textContent = "Sharing is not supported in this browser.";
+    }
+  });
+})();
+/* Smart Fare Splitter */
+(function () {
+  const fareInput = document.getElementById("splitFare");
+  const peopleSelect = document.getElementById("friendCount");
+  const calculateBtn = document.getElementById("calculateSplitBtn");
+  const copyBtn = document.getElementById("copySplitBtn");
+  const result = document.getElementById("splitResult");
+
+  if (!fareInput || !peopleSelect || !calculateBtn || !copyBtn || !result) {
+    return;
+  }
+
+  let splitDetails = "";
+
+  calculateBtn.addEventListener("click", function () {
+    const fare = Number(fareInput.value);
+    const people = Number(peopleSelect.value);
+
+    if (!Number.isFinite(fare) || fare <= 0) {
+      result.textContent = "Please enter a valid fare amount.";
+      splitDetails = "";
+      return;
+    }
+
+    const totalPaise = Math.round(fare * 100);
+    const basePaise = Math.floor(totalPaise / people);
+    const extraPaise = totalPaise % people;
+
+    const amounts = Array.from({ length: people }, function (_, index) {
+      return (basePaise + (index < extraPaise ? 1 : 0)) / 100;
+    });
+
+    splitDetails = "CabGo Fare Split\nTotal Fare: ₹" +
+      (totalPaise / 100).toFixed(2) +
+      "\nPeople: " + people +
+      "\n" + amounts.map(function (amount, index) {
+        return "Person " + (index + 1) + ": ₹" + amount.toFixed(2);
+      }).join("\n");
+
+    result.textContent = amounts.map(function (amount, index) {
+      return "Person " + (index + 1) + ": ₹" + amount.toFixed(2);
+    }).join(" | ");
+  });
+
+  copyBtn.addEventListener("click", async function () {
+    if (!splitDetails) {
+      result.textContent = "Calculate the split first.";
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(splitDetails);
+      result.textContent += " — Split details copied!";
+    } catch (error) {
+      result.textContent = splitDetails;
+    }
+  });
+})();
+/* Lost & Found Functionality */
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("lostFoundForm");
+  const message = document.getElementById("lostFoundMessage");
+  const history = document.getElementById("lostFoundHistory");
+
+  if (!form || !message || !history) return;
+
+  function showReports() {
+    const reports = JSON.parse(
+      localStorage.getItem("cabLostReports") || "[]"
+    );
+
+    history.replaceChildren();
+
+    reports.forEach(function (report) {
+      const card = document.createElement("div");
+      card.className = "lost-report";
+
+      const title = document.createElement("strong");
+      title.textContent = "🔎 " + report.item;
+
+      const details = document.createElement("p");
+      details.textContent =
+        "Route: " + report.route +
+        " | Description: " + report.description;
+
+      const date = document.createElement("small");
+      date.textContent = "Reported: " + report.date;
+
+      card.append(title, details, date);
+      history.appendChild(card);
+    });
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const report = {
+      item: document.getElementById("lostItem").value,
+      route: document.getElementById("lostRide").value.trim(),
+      description: document.getElementById("lostDescription").value.trim(),
+      contact: document.getElementById("lostContact").value.trim(),
+      date: new Date().toLocaleString()
+    };
+
+    const reports = JSON.parse(
+      localStorage.getItem("cabLostReports") || "[]"
+    );
+
+    reports.unshift(report);
+
+    try {
+      localStorage.setItem(
+        "cabLostReports",
+        JSON.stringify(reports.slice(0, 20))
+      );
+    } catch (error) {
+      message.textContent = "Could not save the report. Please try again.";
+      return;
+    }
+
+    message.textContent =
+      "✅ Lost item report saved! Please contact CabGo support for help.";
+
+    form.reset();
+    showReports();
+  });
+
+  showReports();
+});

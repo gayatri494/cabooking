@@ -180,6 +180,126 @@
   <p id="loginMessage"></p>
 </dialog>
 
+
+<!-- Smart Ride Buddy -->
+<section id="rideBuddy" class="ride-buddy">
+  <h2>🛡️ Smart Ride Buddy</h2>
+  <p>Your safety matters on every ride!</p>
+
+  <label for="trustedContact">Trusted Contact Name</label>
+  <input
+    id="trustedContact"
+    type="text"
+    placeholder="Enter contact name"
+  />
+
+  <label for="trustedPhone">Trusted Contact Mobile</label>
+  <input
+    id="trustedPhone"
+    type="tel"
+    placeholder="Enter mobile number"
+  />
+
+  <button type="button" id="saveContactBtn">Save Contact</button>
+
+  <hr />
+
+  <h3>⏱️ Ride Safety Timer</h3>
+  <p id="safetyTimer">Ride not started</p>
+  <button type="button" id="startSafetyBtn">Start Safety Timer</button>
+  <button type="button" id="stopSafetyBtn">Stop Timer</button>
+
+  <hr />
+
+  <h3>📲 Share Trip Details</h3>
+  <button type="button" id="shareTripBtn">Share Trip</button>
+
+  <hr />
+
+  <h3>🚨 Emergency</h3>
+  <a id="sosCallBtn" href="tel:112">Call Emergency Services (112)</a>
+
+  <p id="buddyMessage" aria-live="polite"></p>
+</section>
+<!-- Smart Fare Splitter -->
+<section class="card" id="fareSplitter">
+  <h2>👥 Smart Fare Splitter</h2>
+  <p>Share your cab fare with friends!</p>
+
+  <label for="splitFare">Total Fare (₹)</label>
+  <input id="splitFare" type="number" min="1" placeholder="Enter total fare">
+
+  <label for="friendCount">Number of People</label>
+  <select id="friendCount">
+    <option value="2">2 People</option>
+    <option value="3">3 People</option>
+    <option value="4">4 People</option>
+    <option value="5">5 People</option>
+    <option value="6">6 People</option>
+    <option value="7">7 People</option>
+    <option value="8">8 People</option>
+  </select>
+
+  <button type="button" id="calculateSplitBtn">
+    Calculate Each Share
+  </button>
+
+  <p id="splitResult" aria-live="polite">
+    Each person's share will appear here.
+  </p>
+
+  <button type="button" id="copySplitBtn">
+    📋 Copy Split Details
+  </button>
+</section>
+<!-- Lost & Found Feature -->
+<section class="lost-found">
+  <h2>🔎 Lost & Found</h2>
+  <p>Forgot something in your cab? Report it here!</p>
+
+  <form id="lostFoundForm">
+    <label for="lostItem">What did you lose?</label>
+    <select id="lostItem" required>
+      <option value="">Select an item</option>
+      <option>Mobile Phone</option>
+      <option>Wallet</option>
+      <option>Bag</option>
+      <option>Keys</option>
+      <option>Documents</option>
+      <option>Other</option>
+    </select>
+
+    <label for="lostRide">Ride Route</label>
+    <input
+      type="text"
+      id="lostRide"
+      placeholder="e.g. Pune Station to Shivajinagar"
+      required
+    />
+
+    <label for="lostDescription">Item Description</label>
+    <textarea
+      id="lostDescription"
+      placeholder="Describe your lost item"
+      required
+    ></textarea>
+
+    <label for="lostContact">Your Contact Number</label>
+    <input
+      type="tel"
+      id="lostContact"
+      placeholder="Enter contact number"
+      pattern="[0-9]{10}"
+      maxlength="10"
+      required
+    />
+
+    <button type="submit">Submit Lost Item Report</button>
+  </form>
+
+  <p id="lostFoundMessage" role="status"></p>
+  <div id="lostFoundHistory"></div>
+</section>
 <script src="script.js"></script>
 </body>
 </html>
